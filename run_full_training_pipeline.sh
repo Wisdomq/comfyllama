@@ -28,15 +28,10 @@ fi
 
 # Check if email is configured
 if [ -z "$TRAINING_NOTIFICATION_EMAIL" ]; then
-    echo "⚠️  Warning: TRAINING_NOTIFICATION_EMAIL not set"
-    echo "Email notification will be skipped"
+    echo "⚠️  Note: TRAINING_NOTIFICATION_EMAIL not set"
+    echo "Training will complete successfully, but no email will be sent."
+    echo "You can monitor progress with: tail -f training.log"
     echo ""
-    read -p "Continue anyway? (y/n) " -n 1 -r
-    echo
-    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-        echo "Exiting. Set email with: export TRAINING_NOTIFICATION_EMAIL='your@email.com'"
-        exit 1
-    fi
 fi
 
 echo ""
