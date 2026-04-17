@@ -1,0 +1,90 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.manifest
+*.spec
+
+# Virtual Environments
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Dataset Files (Large - regenerate on server)
+*.jsonl
+comfyui_dataset.jsonl
+comfyui_dataset_formatted.jsonl
+comfyui_dataset_combined.jsonl
+comfyui_dataset_combined_formatted.jsonl
+
+# Training Outputs
+training_output/
+training_output_server/
+training_interrupted/
+training_interrupted_2/
+training_error_checkpoint/
+training_error_checkpoint_server/
+
+# Model Files (Large - download separately)
+comfyui_lora_model/
+comfyui_lora_model_final/
+*.bin
+*.safetensors
+*.ckpt
+*.pth
+*.pt
+
+# Logs
+*.log
+training.log
+pipeline.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# OS
+Thumbs.db
+.DS_Store
+*.bak
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+*.ipynb
+
+# HuggingFace Cache
+.cache/
+huggingface/
+
+# Temporary files
+*.tmp
+*.temp
+tmp/
+temp/
+
+# Documentation - Ignore all .md files except essential server docs
+*.md
+!SERVER_TRAINING_GUIDE.md
+!DEPLOYMENT_CHECKLIST.md
