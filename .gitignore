@@ -53,9 +53,11 @@ comfyui_lora_model_final/
 *.pt
 
 # Logs
+logs/
 *.log
 training.log
 pipeline.log
+training.pid
 
 # IDE
 .vscode/
@@ -88,3 +90,6 @@ temp/
 *.md
 !SERVER_TRAINING_GUIDE.md
 !DEPLOYMENT_CHECKLIST.md
+!TROUBLESHOOTING.md
+!QUICK_COMMANDS.md
+!TRAINING_RECOVERY.md

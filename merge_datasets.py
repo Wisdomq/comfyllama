@@ -6,17 +6,40 @@ Extracts workflows from PNG metadata and combines with existing data
 from datasets import load_dataset
 import json
 from tqdm import tqdm
+import os
+import subprocess
 
 print("="*70)
 print("MERGING COMFYUI DATASETS")
 print("="*70)
 
-# Step 1: Load existing synthetic dataset
+# Step 1: Load existing synthetic dataset (if exists)
 print("\n[1/4] Loading existing synthetic dataset...")
-with open("comfyui_dataset.jsonl", "r") as f:
-    synthetic_data = [json.loads(line) for line in f]
+synthetic_data = []
 
-print(f"✓ Loaded {len(synthetic_data)} synthetic examples")
+if os.path.exists("comfyui_dataset.jsonl"):
+    with open("comfyui_dataset.jsonl", "r") as f:
+        synthetic_data = [json.loads(line) for line in f]
+    print(f"✓ Loaded {len(synthetic_data)} synthetic examples")
+else:
+    print("⚠️  No synthetic dataset found (comfyui_dataset.jsonl)")
+    print("   Generating synthetic dataset first...")
+    
+    # Try to generate synthetic dataset
+    try:
+        import subprocess
+        result = subprocess.run(["python", "create_comfyui_dataset.py"], 
+                              capture_output=True, text=True, timeout=300)
+        if result.returncode == 0:
+            with open("comfyui_dataset.jsonl", "r") as f:
+                synthetic_data = [json.loads(line) for line in f]
+            print(f"✓ Generated and loaded {len(synthetic_data)} synthetic examples")
+        else:
+            print("⚠️  Could not generate synthetic dataset")
+            print("   Continuing with HuggingFace data only...")
+    except Exception as e:
+        print(f"⚠️  Error generating synthetic dataset: {e}")
+        print("   Continuing with HuggingFace data only...")
 
 # Step 2: Load HuggingFace dataset and extract workflows
 print("\n[2/4] Loading HuggingFace dataset (500 real workflows)...")

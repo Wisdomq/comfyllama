@@ -230,29 +230,32 @@ print("2. Test the model: python test_model.py")
 print("3. Download the model from server if needed")
 print("="*70)
 
-print("\n✓ Training complete! Check email for notification.")
-
 # Send email notification
 print("\n" + "="*70)
 print("SENDING EMAIL NOTIFICATION")
 print("="*70)
 
-# Import email function
-from send_email_notification import send_training_complete_email
+# Get recipient email from environment variable
+recipient_email = os.environ.get("TRAINING_NOTIFICATION_EMAIL", None)
 
-# Get recipient email from environment variable or use default
-recipient_email = os.environ.get("TRAINING_NOTIFICATION_EMAIL", "user@example.com")
-
-if recipient_email != "user@example.com":
-    send_training_complete_email(
-        recipient_email=recipient_email,
-        training_time_hours=training_time,
-        final_loss=trainer.state.log_history[-1].get('loss', None),
-        total_steps=trainer.state.global_step,
-        model_path=output_dir
-    )
+if recipient_email and recipient_email != "user@example.com":
+    try:
+        # Import email function
+        from send_email_notification import send_training_complete_email
+        
+        send_training_complete_email(
+            recipient_email=recipient_email,
+            training_time_hours=training_time,
+            final_loss=trainer.state.log_history[-1].get('loss', None),
+            total_steps=trainer.state.global_step,
+            model_path=output_dir
+        )
+    except Exception as e:
+        print(f"⚠️  Email notification failed (non-critical): {e}")
+        print("   Training completed successfully, but email could not be sent.")
+        print("   You can check the model manually.")
 else:
-    print("⚠️  No email configured. Set TRAINING_NOTIFICATION_EMAIL environment variable.")
-    print("   Example: export TRAINING_NOTIFICATION_EMAIL='your@email.com'")
+    print("⚠️  Email notification skipped (TRAINING_NOTIFICATION_EMAIL not set)")
+    print("   Training completed successfully!")
 
 print("="*70)
